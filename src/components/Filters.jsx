@@ -7,15 +7,46 @@ function Filters() {
     data,
     filters,
     setFilters,
-    filteredData,
     setFilteredData,
+    appliedFilters,
+    setAppliedFilters,
+    columnOptions,
+    planets,
   } = useContext(PlanetsContext);
 
   const [numericFilter, setNumericFilter] = useState({
-    column: 'population',
+    column: columnOptions[0],
     comparison: 'maior que',
     value: '0',
   });
+
+  const applyFilters = (filter) => {
+    if (filters.filterByName.name !== '') {
+      setFilteredData(data.filter((planet) => (
+        (planet.name.toUpperCase()).includes((filters.filterByName.name).toUpperCase())
+      )));
+    } else {
+      setFilteredData(data);
+    }
+    if (filter) {
+      console.log('aqui');
+      const column = filter[0];
+      const comparison = filter[1];
+      const value = filter[2];
+      if (comparison === 'igual a') {
+        setFilteredData(planets.filter((planet) => Number(planet[column])
+          === Number(value)));
+      }
+      if (comparison === 'maior que') {
+        setFilteredData(planets.filter((planet) => Number(planet[column])
+          > Number(value)));
+      }
+      if (comparison === 'menor que') {
+        setFilteredData(planets.filter((planet) => Number(planet[column])
+          < Number(value)));
+      }
+    }
+  };
 
   const handleChangeNameFilter = ({ target: { value } }) => {
     setFilters((prevState) => ({
@@ -33,38 +64,31 @@ function Filters() {
     }));
   };
 
-  const applyFilters = () => {
-    if (filters.filterByName.name !== '') {
-      setFilteredData(data.filter((planet) => (
-        (planet.name.toUpperCase()).includes((filters.filterByName.name).toUpperCase())
-      )));
-    } else {
-      setFilteredData([]);
+  const applyNumericFilters = () => {
+    if (appliedFilters.length > 0) {
+      appliedFilters.map((filter) => (
+        applyFilters(filter)
+      ));
     }
   };
 
   const handleClickFilter = ({ comparison, column, value }) => {
-    console.log(column, comparison, value);
-    if (comparison === 'igual a') {
-      setFilteredData(data.filter((planet) => Number(planet[column]) === Number(value)));
-    }
-    if (comparison === 'maior que') {
-      setFilteredData(data.filter((planet) => Number(planet[column]) > Number(value)));
-    }
-    if (comparison === 'menor que') {
-      setFilteredData(data.filter((planet) => Number(planet[column]) < Number(value)));
-    }
+    columnOptions.splice(columnOptions.indexOf(column), 1);
+    setAppliedFilters((prevState) => [
+      ...prevState,
+      [column, comparison, value],
+    ]);
+    setNumericFilter(() => ({
+      column: columnOptions[0],
+      comparison: 'maior que',
+      value: '0',
+    }));
   };
 
   useEffect(() => {
-    console.log(filters);
     applyFilters();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [filters]);
-
-  useEffect(() => {
-    console.log(filteredData);
-  }, [filteredData]);
+  }, [filters.filterByName]);
 
   useEffect(() => {
     setFilters((prevState) => ({
@@ -73,9 +97,13 @@ function Filters() {
         numericFilter,
       ],
     }));
-    console.log(numericFilter);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [numericFilter]);
+
+  useEffect(() => {
+    applyNumericFilters();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [appliedFilters]);
 
   return (
     <div>
@@ -98,11 +126,11 @@ function Filters() {
             onChange={ (event) => handleChangeNumericFilter(event) }
             value={ filters.filterByNumericValues[0].column }
           >
-            <option value="population">population</option>
-            <option value="orbital_period">orbital_period</option>
-            <option value="diameter">diameter</option>
-            <option value="rotation_period">rotation_period</option>
-            <option value="surface_water">surface_water</option>
+            {
+              columnOptions.map((option) => (
+                <option key={ option } value={ option }>{ option }</option>
+              ))
+            }
           </select>
         </label>
         <label htmlFor="comparison-filter">

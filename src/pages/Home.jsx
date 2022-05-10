@@ -3,6 +3,7 @@ import React, { useContext, useEffect } from 'react';
 import PlanetsContext from '../context/PlanetsContext';
 import Table from '../components/Table';
 import Filters from '../components/Filters';
+import AppliedFilters from '../components/AppliedFilters';
 
 function Home() {
   const { getPlanets } = useContext(PlanetsContext);
@@ -15,6 +16,7 @@ function Home() {
   return (
     <>
       <Filters />
+      <AppliedFilters />
       <Table />
     </>
   );

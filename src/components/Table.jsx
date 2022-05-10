@@ -1,20 +1,17 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect } from 'react';
 
 import PlanetsContext from '../context/PlanetsContext';
 
 function Table() {
-  const { data, filteredData } = useContext(PlanetsContext);
-  const [planets, setPlanets] = useState([]);
+  const { data, filteredData, setPlanets, planets } = useContext(PlanetsContext);
 
   useEffect(() => {
-    // console.log('data', data);
-    // console.log('planets', planets);
-    // setPlanets(data);
     if (filteredData.length === 0) {
       setPlanets(data);
     } else {
       setPlanets(filteredData);
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data, planets, filteredData]);
 
   return (
