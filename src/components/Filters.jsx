@@ -12,7 +12,7 @@ function Filters() {
     setAppliedFilters,
     setColumnOptions,
     columnOptions,
-    setPlanets,
+    // setPlanets,
     planets,
   } = useContext(PlanetsContext);
 
