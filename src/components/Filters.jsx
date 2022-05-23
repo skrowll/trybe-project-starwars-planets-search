@@ -10,7 +10,9 @@ function Filters() {
     setFilteredData,
     appliedFilters,
     setAppliedFilters,
+    setColumnOptions,
     columnOptions,
+    setPlanets,
     planets,
   } = useContext(PlanetsContext);
 
@@ -29,7 +31,7 @@ function Filters() {
       setFilteredData(data);
     }
     if (filter) {
-      console.log('aqui');
+      console.log('filtra');
       const column = filter[0];
       const comparison = filter[1];
       const value = filter[2];
@@ -66,6 +68,7 @@ function Filters() {
 
   const applyNumericFilters = () => {
     if (appliedFilters.length > 0) {
+      console.log('applyNumericFilters');
       appliedFilters.map((filter) => (
         applyFilters(filter)
       ));
@@ -83,6 +86,15 @@ function Filters() {
       comparison: 'maior que',
       value: '0',
     }));
+  };
+
+  const handleClickRemove = () => {
+    console.log('remove');
+    setColumnOptions([
+      'population', 'orbital_period', 'diameter', 'rotation_period', 'surface_water',
+    ]);
+    setFilteredData(data);
+    setAppliedFilters([]);
   };
 
   useEffect(() => {
@@ -161,6 +173,14 @@ function Filters() {
           onClick={ () => handleClickFilter(numericFilter) }
         >
           Filtrar
+        </button>
+        <button
+          name="remove-filters"
+          type="button"
+          data-testid="button-remove-filters"
+          onClick={ () => handleClickRemove() }
+        >
+          Remover filtros
         </button>
       </form>
     </div>

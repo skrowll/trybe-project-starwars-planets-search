@@ -3,7 +3,12 @@ import React, { useContext, useEffect } from 'react';
 import PlanetsContext from '../context/PlanetsContext';
 
 function Table() {
-  const { data, filteredData, setPlanets, planets } = useContext(PlanetsContext);
+  const {
+    data,
+    filteredData,
+    setPlanets,
+    planets,
+  } = useContext(PlanetsContext);
 
   useEffect(() => {
     if (filteredData.length === 0) {
