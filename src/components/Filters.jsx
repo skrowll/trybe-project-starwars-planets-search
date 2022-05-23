@@ -12,7 +12,6 @@ function Filters() {
     setAppliedFilters,
     setColumnOptions,
     columnOptions,
-    // setPlanets,
     planets,
   } = useContext(PlanetsContext);
 
@@ -31,7 +30,6 @@ function Filters() {
       setFilteredData(data);
     }
     if (filter) {
-      console.log('filtra');
       const column = filter[0];
       const comparison = filter[1];
       const value = filter[2];
@@ -68,7 +66,6 @@ function Filters() {
 
   const applyNumericFilters = () => {
     if (appliedFilters.length > 0) {
-      console.log('applyNumericFilters');
       appliedFilters.map((filter) => (
         applyFilters(filter)
       ));
@@ -89,7 +86,6 @@ function Filters() {
   };
 
   const handleClickRemove = () => {
-    console.log('remove');
     setColumnOptions([
       'population', 'orbital_period', 'diameter', 'rotation_period', 'surface_water',
     ]);

@@ -4,6 +4,7 @@ import PlanetsContext from '../context/PlanetsContext';
 import Table from '../components/Table';
 import Filters from '../components/Filters';
 import AppliedFilters from '../components/AppliedFilters';
+import Order from '../components/Order';
 
 function Home() {
   const { getPlanets } = useContext(PlanetsContext);
@@ -16,6 +17,7 @@ function Home() {
   return (
     <>
       <Filters />
+      <Order />
       <AppliedFilters />
       <Table />
     </>

@@ -23,9 +23,25 @@ function PlanetsProvider({ children }) {
     ],
   });
   const [appliedFilters, setAppliedFilters] = useState([]);
+  const [order, setOrder] = useState({
+    column: 'population',
+    sort: '',
+  });
 
   const getPlanets = async () => {
     const { results } = await fetchPlanets();
+    const UM = 1;
+    const UM_NEGATIVO = -1;
+    const ZERO = 0;
+    results.sort((a, b) => {
+      if ((a.name) > (b.name)) {
+        return UM;
+      }
+      if ((a.name) < (b.name)) {
+        return UM_NEGATIVO;
+      }
+      return ZERO;
+    });
     setData(results);
   };
 
@@ -44,6 +60,8 @@ function PlanetsProvider({ children }) {
     setColumnOptions,
     planets,
     setPlanets,
+    order,
+    setOrder,
   };
 
   return (
